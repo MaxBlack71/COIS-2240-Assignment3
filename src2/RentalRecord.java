@@ -30,4 +30,17 @@ public class RentalRecord {
                " | Date: " + recordDate + 
                " | Amount: $" + totalAmount;
     }
-}
+    public LocalDate getDate() {
+        return recordDate;
+    }
+
+    public double getAmount() {
+        return totalAmount;
+    }
+
+    public String getType() {
+        return recordType;
+    }
+
+	
+	}

@@ -7,7 +7,7 @@ public class VehicleRentalApp {
         RentalSystem rentalSystem = RentalSystem.getInstance();
 
         while (true) {
-        	System.out.println("1: Add Vehicle\n2: Add Customer\n3: Rent Vehicle\n4: Return Vehicle\n5: Display Available Vehicles\n6: Show Rental History\n7: Exit");
+        	System.out.println("1: Add Vehicle\n2: Add Customer\n3: Rent Vehicle\n4: Return Vehicle\n5: Display Available Vehicles\n6: Show Rental History\n0: Exit");
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -47,10 +47,14 @@ public class VehicleRentalApp {
 		            	vehicle = null;
 		            }
                     
-                    if (vehicle != null){
-	                    vehicle.setLicensePlate(plate);
-	                    rentalSystem.addVehicle(vehicle);
-	                    System.out.print("Vehicle added.");
+                    if (vehicle != null) {
+                        vehicle.setLicensePlate(plate); 
+
+                        if (rentalSystem.addVehicle(vehicle)) {
+                            System.out.println("Vehicle added successfully.");
+                        } else {
+                            System.out.println("Duplicate license plate. Vehicle not added.");
+                        }
                     }
                     else {
 	                    System.out.print("Vehicle not added.");
@@ -60,6 +64,8 @@ public class VehicleRentalApp {
                 case 2:
                     System.out.print("Enter customer ID: ");
                     int cid = scanner.nextInt();
+                    scanner.nextLine();
+                    
                     System.out.print("Enter name: ");
                     String cname = scanner.nextLine();
 

@@ -73,7 +73,7 @@ public class RentalSystem {
                     Vehicle.VehicleStatus status = Vehicle.VehicleStatus.valueOf(parts[4]);
 
                     Vehicle v = plate.startsWith("MC") ? 
-                    		 new Motorcycle(make, model, year, false)  // default: no sidecar
+                    		 new Motorcycle(make, model, year, false) 
                     			    : new Car(make, model, year, 4); 
                     v.setStatus(status);
                     vehicles.add(v);
@@ -207,8 +207,9 @@ public class RentalSystem {
     }
 
     public Vehicle findVehicleByPlate(String plate) {
-        for (Vehicle v : vehicles) {
-            if (v.getLicensePlate().equalsIgnoreCase(plate)) {
+    	for (Vehicle v : vehicles) {
+            String existingPlate = v.getLicensePlate();
+            if (existingPlate != null && existingPlate.equalsIgnoreCase(plate)) {
                 return v;
             }
         }

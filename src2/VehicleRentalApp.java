@@ -48,15 +48,18 @@ public class VehicleRentalApp {
 		            }
                     
                     if (vehicle != null) {
-                        vehicle.setLicensePlate(plate); 
+                        try {
+                    	vehicle.setLicensePlate(plate); 
 
                         if (rentalSystem.addVehicle(vehicle)) {
                             System.out.println("Vehicle added successfully.");
                         } else {
                             System.out.println("Duplicate license plate. Vehicle not added.");
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
                     }
-                    else {
+                    } else {
 	                    System.out.print("Vehicle not added.");
                     }
                     break;
@@ -78,8 +81,9 @@ public class VehicleRentalApp {
                 	rentalSystem.displayAvailableVehicles();
 
                     System.out.print("Enter license plate: ");
-                    String rentPlate = scanner.nextLine().toUpperCase();
-
+                    String rentPlate = scanner.nextLine().toUpperCase();                
+                    
+                    
                 	System.out.println("Registered Customers:");
                 	rentalSystem.displayAllCustomers();
 

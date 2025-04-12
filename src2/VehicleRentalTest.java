@@ -1,5 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 class VehicleRentalTest {
@@ -25,5 +27,33 @@ class VehicleRentalTest {
 	    assertThrows(IllegalArgumentException.class, () -> invalid2.setLicensePlate(null));
 	    assertThrows(IllegalArgumentException.class, () -> invalid3.setLicensePlate("AAA1000"));
 	    assertThrows(IllegalArgumentException.class, () -> invalid4.setLicensePlate("ZZZ99"));
+	}
+	@Test
+	public void testRentAndReturnVehicle() {
+	    RentalSystem system = RentalSystem.getInstance();
+
+	    Vehicle car = new Car("Honda", "Accord", 2017, 4);
+	    car.setLicensePlate("CRT360");
+
+	    Customer customer = new Customer(004, "Max Black");
+
+	    assertTrue(system.addVehicle(car));
+	    assertTrue(system.addCustomer(customer));
+
+	    assertEquals(Vehicle.VehicleStatus.AVAILABLE, car.getStatus());
+
+	    boolean rentResult = system.rentVehicle(car, customer, LocalDate.now(), 100.0);
+	    assertTrue(rentResult, "Rent should work");
+	    assertEquals(Vehicle.VehicleStatus.RENTED, car.getStatus());
+
+	    boolean rentAgain = system.rentVehicle(car, customer, LocalDate.now(), 100.0);
+	    assertFalse(rentAgain, "Renting a rented vehicle should not work");
+
+	    boolean returnResult = system.returnVehicle(car, customer, LocalDate.now(), 0.0);
+	    assertTrue(returnResult, "Return should work");
+	    assertEquals(Vehicle.VehicleStatus.AVAILABLE, car.getStatus());
+
+	    boolean returnAgain = system.returnVehicle(car, customer, LocalDate.now(), 0.0);
+	    assertFalse(returnAgain, "Returning an available vehicle should not work");
 	}
 }
